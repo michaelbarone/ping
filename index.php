@@ -9,7 +9,7 @@ if(isset($_GET['ip']) && !$_GET['ip']==''){
 }
 
 $ips = array();
-$ips = explode(";",$ip);
+$ips = explode(",",$ip);
 $returnarray = array();
 foreach($ips as $thisip){
 	$result = Ping($thisip);
