@@ -42,6 +42,7 @@ function Ping($ip) {
 	$sent = 0;
 	$lost = 0;
 	$timeMax = 0;
+	$timeMin = 0;
 	$timeAve = 0;
 	$status = 1;
 	if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
@@ -53,6 +54,7 @@ function Ping($ip) {
 		}
 		if(isset($output[8])){
 			$exoutput = explode(',',$output[8]);
+			$timeMin = preg_replace('/\D/', '', $exoutput[0]);
 			$timeMax = preg_replace('/\D/', '', $exoutput[1]);
 			$timeAve = preg_replace('/\D/', '', $exoutput[2]);
 		}
@@ -70,12 +72,14 @@ function Ping($ip) {
 		if(isset($output[6])){
 			$exoutput = explode('=',$output[6]);
 			$exoutput = explode('/',$exoutput[1]);
-			$timeMax = round($exoutput[2]);
-			$timeAve = round($exoutput[1]);
+			$timeMin = $exoutput[0];
+			$timeMax = $exoutput[2];
+			$timeAve = $exoutput[1];
 		}			
 	}
 	$newping['sent']=$sent;
 	$newping['lost']=$lost;
+	$newping['timeMin']=$timeMin;
 	$newping['timeMax']=$timeMax;
 	$newping['timeAve']=$timeAve;
 	$returnArray['stats']=$newping;
